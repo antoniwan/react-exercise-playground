@@ -1,47 +1,18 @@
 import React, { Component } from "react";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import styled from "styled-components";
-import MainLayout from "../components/MainLayout";
+import "react-tabs/style/react-tabs.css";
+import AlgorithmLayout from "../components/AlgorithmLayout";
 
 const algorithmName = `Sieve of Eratosthenes`;
 const algorithmDescription = `Simple, ancient algorithm for finding all prime numbers up to any given limit`;
 const algoirthmURL = `https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes`;
 
-const StyledAlgorithm = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-
+const CustomStyles = styled.div`
   .number-green {
     color: var(--color-pretty-green);
     font-weight: bold;
   }
 
-  .algorithm__header {
-    h2 {
-      font-weight: 600;
-      font-style: italic;
-      color: var(--color-dark-gray);
-      font-size: 1.3rem;
-      margin-bottom: 0.5rem;
-    }
-    margin-bottom: 1rem;
-  }
-
-  .algorithm__content {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-
-  .algorithm__main {
-    flex: 65%;
-    margin-bottom: 1rem;
-  }
-
-  .algorithm__aside {
-    margin-bottom: 1rem;
-  }
   .prime-list {
     margin: 0;
     padding: 0;
@@ -109,7 +80,7 @@ const Number = ({ number, isStrikedOut, isPrime }) => {
   );
 };
 
-class Sieve_of_Eratosthenes extends Component {
+class Alpha_Sieve_of_Eratosthenes extends Component {
   constructor() {
     super();
     this.state = {
@@ -277,79 +248,60 @@ class Sieve_of_Eratosthenes extends Component {
     });
 
     return (
-      <MainLayout>
-        <StyledAlgorithm>
-          <div className="algorithm__header">
-            <h2>Algorithm</h2>
-            <h1>{algorithmName}</h1>
-            <p>
-              {algorithmDescription}.{" "}
-              <a href={algoirthmURL} target="_blank" rel="noopener noreferrer">
-                Learn more about the algorithm
-              </a>{" "}
-              and see my source code on Github here.
-            </p>
-          </div>
+      <AlgorithmLayout
+        algorithmName={algorithmName}
+        algorithmDescription={algorithmDescription}
+        algorithmUrl={algoirthmURL}
+        Solution={() => {
+          return (
+            <CustomStyles>
+              <h2>Number Array</h2>
+              <p>
+                We are generating {numberAmount} numbers for this exercise and
+                numbers in <span className="number-green">green</span> are
+                primes. Modify the sample size here:{" "}
+                <input
+                  type="number"
+                  id="numbers"
+                  name="numbers"
+                  min={2}
+                  value={numberAmount}
+                  onChange={this.handleNumberAmountChange}
+                />
+                .{" "}
+                <em>
+                  Keep in mind that if you input a very big number, your browser
+                  will need time to process everything!
+                </em>
+              </p>
 
-          <div className="algorithm__content">
-            <Tabs>
-              <TabList>
-                <Tab>Interactive Solution</Tab>
-                <Tab>Source Code</Tab>
-                <Tab>Notes</Tab>
-                <Tab>Activity Log</Tab>
-              </TabList>
+              <div>
+                <ul className="number-list">{numberList}</ul>
+              </div>
 
-              <TabPanel>
-                <h2>Number Array</h2>
-                <p>
-                  We are generating {numberAmount} numbers for this exercise and
-                  numbers in <span className="number-green">green</span> are
-                  primes. Modify the sample size here:{" "}
-                  <input
-                    type="number"
-                    id="numbers"
-                    name="numbers"
-                    min={2}
-                    value={numberAmount}
-                    onChange={this.handleNumberAmountChange}
-                  />
-                  .{" "}
-                  <em>
-                    Keep in mind that if you input a very big number, your
-                    browser will need time to process everything!
-                  </em>
-                </p>
-
-                <div>
-                  <ul className="number-list">{numberList}</ul>
-                </div>
-
-                <aside className="algorithm__aside">
-                  <h2>Found Prime Numbers</h2>
-                  <ul className="prime-list">{primeNumberList}</ul>
-                </aside>
-              </TabPanel>
-              <TabPanel>
-                <h2>Source Code</h2>
-              </TabPanel>
-
-              <TabPanel>
-                <h2>Notes</h2>
-              </TabPanel>
-
-              <TabPanel>
-                <h3>Activity Log</h3>
-                <div>
-                  <ol>{activityLogList}</ol>
-                </div>
-              </TabPanel>
-            </Tabs>
-          </div>
-        </StyledAlgorithm>
-      </MainLayout>
+              <aside className="algorithm__aside">
+                <h2>Found Prime Numbers</h2>
+                <ul className="prime-list">{primeNumberList}</ul>
+              </aside>
+            </CustomStyles>
+          );
+        }}
+        ActivityLog={() => {
+          return (
+            <div>
+              <ol>{activityLogList}</ol>
+            </div>
+          );
+        }}
+        Notes={() => {
+          return <div>notes...</div>;
+        }}
+        SourceCode={() => {
+          return <div>SourceCode...</div>;
+        }}
+      />
     );
   }
 }
 
-export default Sieve_of_Eratosthenes;
+export default Alpha_Sieve_of_Eratosthenes;
