@@ -8,6 +8,7 @@ const algorithmName = `Sieve of Eratosthenes`;
 const algorithmDescription = `Simple, ancient algorithm for finding all prime numbers up to any given limit.`;
 const algorithmInstructions = `In this coding exercise I will find all the prime numbers less than or equal to a given integer using Eratosthenes' method.`;
 const algorithmURL = `https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes`;
+const sourceFileUrlGithub = `https://github.com/antoniwan/react-exercise-playground/blob/master/src/algorithms/sieve-of-eratosthenes.js`;
 const sourceFileURL = `https://raw.githubusercontent.com/antoniwan/react-exercise-playground/master/src/algorithms/sieve-of-eratosthenes.js`;
 
 const StyledAlgorithm = styled.div`
@@ -336,6 +337,18 @@ class Sieve_of_Eratosthenes extends Component {
 
             <TabPanel>
               <h2>Source Code</h2>
+              <p>
+                See the source code{" "}
+                <a
+                  href={sourceFileUrlGithub}
+                  target="_blank"
+                  rel="noopener norefresher"
+                >
+                  on Github
+                </a>
+                .
+              </p>
+              <hr />
               <pre>
                 <code className="language-jsx">{sourceCode}</code>
               </pre>

@@ -64,6 +64,10 @@ const StyledAlgorithmLayout = styled.div`
     width: 100%;
   }
 
+  pre {
+    overflow: scroll;
+  }
+
   pre code {
     font-size: 12px;
   }
