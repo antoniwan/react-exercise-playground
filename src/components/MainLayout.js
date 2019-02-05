@@ -9,6 +9,10 @@ const StyledMainLayout = styled.div`
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+
+    h1 {
+      margin: 0;
+    }
   }
   header .header--container {
     width: 100%;

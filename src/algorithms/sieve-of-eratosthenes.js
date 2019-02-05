@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import styled from "styled-components";
-import MainLayout from "../components/MainLayout";
+import AlgorithmLayout from "../components/AlgorithmLayout";
 
 const algorithmName = `Sieve of Eratosthenes`;
-const algorithmDescription = `Simple, ancient algorithm for finding all prime numbers up to any given limit`;
-const algoirthmURL = `https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes`;
+const algorithmDescription = `Simple, ancient algorithm for finding all prime numbers up to any given limit.`;
+const algorithmInstructions = `In this coding exercise I will find all the prime numbers less than or equal to a given integer using Eratosthenes' method.`;
+const algorithmURL = `https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes`;
 
 const StyledAlgorithm = styled.div`
   display: flex;
@@ -17,31 +18,6 @@ const StyledAlgorithm = styled.div`
     font-weight: bold;
   }
 
-  .algorithm__header {
-    h2 {
-      font-weight: 600;
-      font-style: italic;
-      color: var(--color-dark-gray);
-      font-size: 1.3rem;
-      margin-bottom: 0.5rem;
-    }
-    margin-bottom: 1rem;
-  }
-
-  .algorithm__content {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-
-  .algorithm__main {
-    flex: 65%;
-    margin-bottom: 1rem;
-  }
-
-  .algorithm__aside {
-    margin-bottom: 1rem;
-  }
   .prime-list {
     margin: 0;
     padding: 0;
@@ -63,6 +39,7 @@ const StyledAlgorithm = styled.div`
     list-style: none;
     display: flex;
     flex-wrap: wrap;
+    margin-bottom: 1rem;
   }
   .number {
     box-sizing: border-box;
@@ -73,12 +50,10 @@ const StyledAlgorithm = styled.div`
     text-align: center;
     border: 1px solid var(--color-black);
     overflow: hidden;
-
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 0.95rem;
-
     opacity: 0.9;
 
     &.striked-out {
@@ -137,11 +112,11 @@ class Sieve_of_Eratosthenes extends Component {
     let startingFrom = 2;
     let numberArray = [];
 
-    // This iteration is not working for some reason!
-    // WTF!!!!!
     // const numberArray = new Array(numberAmount).fill().map(() => {
     //   return index++;
     // });
+    // This iteration only works on 1st run for some reason!
+    // Dunno why! WTF!!!!!
 
     for (let index = 0; index < numberAmount; index++) {
       numberArray[index] = startingFrom;
@@ -198,7 +173,7 @@ class Sieve_of_Eratosthenes extends Component {
             () => {
               this.addLogItem(
                 `Cross out ${p *
-                  number} (${p} x ${number}) because it's a multiple of ${p}.`
+                  number} (${p} x ${number}). It's a multiple of ${p}`
               );
             }
           );
@@ -216,7 +191,7 @@ class Sieve_of_Eratosthenes extends Component {
         primeNumberArray
       },
       () => {
-        this.addLogItem(`Found a new prime number: ${number}!`);
+        this.addLogItem(`Found a new prime number: ${number}`);
       }
     );
   }
@@ -273,81 +248,84 @@ class Sieve_of_Eratosthenes extends Component {
     });
 
     const activityLogList = activityLogArray.map(activity => {
-      return <li key={`process-${Math.random()}`}>{activity}</li>;
+      return <li key={`log-entry-${Math.random()}`}>{activity}</li>;
     });
 
     return (
-      <MainLayout>
+      <AlgorithmLayout
+        algorithmName={algorithmName}
+        algorithmDescription={algorithmDescription}
+        algorithmInstructions={algorithmInstructions}
+        algorithmURL={algorithmURL}
+      >
         <StyledAlgorithm>
-          <div className="algorithm__header">
-            <h2>Algorithm</h2>
-            <h1>{algorithmName}</h1>
-            <p>
-              {algorithmDescription}.{" "}
-              <a href={algoirthmURL} target="_blank" rel="noopener noreferrer">
-                Learn more about the algorithm
-              </a>{" "}
-              and see my source code on Github here.
-            </p>
-          </div>
+          <Tabs>
+            <TabList>
+              <Tab>Solution</Tab>
+              <Tab>Actions Log</Tab>
+              <Tab>Notes</Tab>
+              <Tab>Source Code</Tab>
+            </TabList>
 
-          <div className="algorithm__content">
-            <Tabs>
-              <TabList>
-                <Tab>Interactive Solution</Tab>
-                <Tab>Source Code</Tab>
-                <Tab>Notes</Tab>
-                <Tab>Activity Log</Tab>
-              </TabList>
+            <TabPanel>
+              <h2>Number Array</h2>
+              <p>
+                I'm currently checking for primes up to number {numberAmount}.{" "}
+                <span className="number-green">Green numbers</span> are primes.
+                Modify the amount of integers to check here:{" "}
+                <input
+                  type="number"
+                  id="numbers"
+                  name="numbers"
+                  min={2}
+                  value={numberAmount}
+                  onChange={this.handleNumberAmountChange}
+                />
+                .
+              </p>
 
-              <TabPanel>
-                <h2>Number Array</h2>
-                <p>
-                  We are generating {numberAmount} numbers for this exercise and
-                  numbers in <span className="number-green">green</span> are
-                  primes. Modify the sample size here:{" "}
-                  <input
-                    type="number"
-                    id="numbers"
-                    name="numbers"
-                    min={2}
-                    value={numberAmount}
-                    onChange={this.handleNumberAmountChange}
-                  />
-                  .{" "}
-                  <em>
-                    Keep in mind that if you input a very big number, your
-                    browser will need time to process everything!
-                  </em>
-                </p>
+              <div>
+                <ul className="number-list">{numberList}</ul>
+              </div>
 
-                <div>
-                  <ul className="number-list">{numberList}</ul>
-                </div>
+              <aside className="algorithm__aside">
+                <h2>Found Prime Numbers</h2>
+                <ul className="prime-list">{primeNumberList}</ul>
+              </aside>
+            </TabPanel>
 
-                <aside className="algorithm__aside">
-                  <h2>Found Prime Numbers</h2>
-                  <ul className="prime-list">{primeNumberList}</ul>
-                </aside>
-              </TabPanel>
-              <TabPanel>
-                <h2>Source Code</h2>
-              </TabPanel>
+            <TabPanel>
+              <h2>Actions Log</h2>
+              <div>
+                <ol>{activityLogList}</ol>
+              </div>
+            </TabPanel>
 
-              <TabPanel>
-                <h2>Notes</h2>
-              </TabPanel>
+            <TabPanel>
+              <h2>Notes</h2>
+              <ul>
+                <li>
+                  <a
+                    href={algorithmURL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Learn more about the algorithm here.
+                  </a>
+                </li>
+                <li>
+                  This algorithm is so inneficient that it will wreck your
+                  browser if you input a number bigger than 500ish!
+                </li>
+              </ul>
+            </TabPanel>
 
-              <TabPanel>
-                <h3>Activity Log</h3>
-                <div>
-                  <ol>{activityLogList}</ol>
-                </div>
-              </TabPanel>
-            </Tabs>
-          </div>
+            <TabPanel>
+              <h2>Source Code</h2>
+            </TabPanel>
+          </Tabs>
         </StyledAlgorithm>
-      </MainLayout>
+      </AlgorithmLayout>
     );
   }
 }
