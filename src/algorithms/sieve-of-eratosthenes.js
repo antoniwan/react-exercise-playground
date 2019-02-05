@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import styled from "styled-components";
 import axios from "axios";
-import Prism from "prismjs";
-import "prismjs/themes/prism-solarizedlight.css";
 import AlgorithmLayout from "../components/AlgorithmLayout";
 
 const algorithmName = `Sieve of Eratosthenes`;
@@ -117,15 +115,9 @@ class Sieve_of_Eratosthenes extends Component {
 
   getSourceCode() {
     axios.get(sourceFileURL).then(response => {
-      console.log(response.data);
-      this.setState(
-        {
-          sourceCode: response.data
-        },
-        () => {
-          Prism.highlightAll();
-        }
-      );
+      this.setState({
+        sourceCode: response.data
+      });
     });
   }
 
@@ -345,7 +337,7 @@ class Sieve_of_Eratosthenes extends Component {
             <TabPanel>
               <h2>Source Code</h2>
               <pre>
-                <code className="language-javascript">{sourceCode}</code>
+                <code className="language-jsx">{sourceCode}</code>
               </pre>
             </TabPanel>
           </Tabs>

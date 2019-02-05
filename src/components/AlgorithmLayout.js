@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import "prismjs/themes/prism.css";
 import MainLayout from "../components/MainLayout";
 
 const StyledAlgorithmLayout = styled.div`
@@ -62,17 +63,15 @@ const StyledAlgorithmLayout = styled.div`
   .prism-code {
     width: 100%;
   }
+
+  pre code {
+    font-size: 12px;
+  }
 `;
 
 class AlgorithmLayout extends Component {
   render() {
-    const {
-      algorithmDescription,
-      algorithmName,
-      algorithmInstructions,
-      algorithmURL,
-      children
-    } = this.props;
+    const { algorithmDescription, algorithmName, children } = this.props;
     return (
       <MainLayout>
         <StyledAlgorithmLayout>
@@ -80,7 +79,6 @@ class AlgorithmLayout extends Component {
             <h2>Algorithm</h2>
             <h1>{algorithmName}</h1>
             <p>{algorithmDescription}</p>
-            {/* <p>{algorithmInstructions}</p> */}
           </div>
 
           <div className="algorithm__content">{children}</div>
