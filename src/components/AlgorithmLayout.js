@@ -58,6 +58,10 @@ const StyledAlgorithmLayout = styled.div`
   input[type="number"] {
     width: 50px;
   }
+
+  .prism-code {
+    width: 100%;
+  }
 `;
 
 class AlgorithmLayout extends Component {

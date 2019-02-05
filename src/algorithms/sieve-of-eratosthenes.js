@@ -1,17 +1,22 @@
 import React, { Component } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import styled from "styled-components";
+import axios from "axios";
+import Prism from "prismjs";
+import "prismjs/themes/prism-solarizedlight.css";
 import AlgorithmLayout from "../components/AlgorithmLayout";
 
 const algorithmName = `Sieve of Eratosthenes`;
 const algorithmDescription = `Simple, ancient algorithm for finding all prime numbers up to any given limit.`;
 const algorithmInstructions = `In this coding exercise I will find all the prime numbers less than or equal to a given integer using Eratosthenes' method.`;
 const algorithmURL = `https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes`;
+const sourceFileURL = `https://raw.githubusercontent.com/antoniwan/react-exercise-playground/master/src/algorithms/sieve-of-eratosthenes.js`;
 
 const StyledAlgorithm = styled.div`
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
+  width: 100%;
 
   .number-green {
     color: var(--color-pretty-green);
@@ -92,7 +97,8 @@ class Sieve_of_Eratosthenes extends Component {
       numberArray: [],
       primeNumberArray: [],
       crossedOutNumberArray: [],
-      activityLogArray: []
+      activityLogArray: [],
+      sourceCode: null
     };
     this.addLogItem = this.addLogItem.bind(this);
     this.generateNumberArray = this.generateNumberArray.bind(this);
@@ -100,11 +106,27 @@ class Sieve_of_Eratosthenes extends Component {
     this.pushPrime = this.pushPrime.bind(this);
     this.getNumberMultiples = this.getNumberMultiples.bind(this);
     this.handleNumberAmountChange = this.handleNumberAmountChange.bind(this);
+    this.getSourceCode = this.getSourceCode.bind(this);
     this.resetAlgorithm = this.resetAlgorithm.bind(this);
   }
 
   componentDidMount() {
     this.generateNumberArray();
+    this.getSourceCode();
+  }
+
+  getSourceCode() {
+    axios.get(sourceFileURL).then(response => {
+      console.log(response.data);
+      this.setState(
+        {
+          sourceCode: response.data
+        },
+        () => {
+          Prism.highlightAll();
+        }
+      );
+    });
   }
 
   generateNumberArray() {
@@ -138,6 +160,7 @@ class Sieve_of_Eratosthenes extends Component {
       activityLogArray
     });
   }
+
   algorithm() {
     const { numberArray, crossedOutNumberArray } = this.state;
     const smallestPrimeNumber = 2;
@@ -151,7 +174,6 @@ class Sieve_of_Eratosthenes extends Component {
         this.pushPrime(p);
       }
     }
-
     // To-do: Can we add how much time it took to complete?
   }
 
@@ -162,7 +184,6 @@ class Sieve_of_Eratosthenes extends Component {
       // find multiple in the numberArray
       // if found, cross it out from the list
       // aka, add it to the crossedOutNumberArray
-
       if (numberArray.includes(multiple)) {
         if (!crossedOutNumberArray.includes(multiple)) {
           crossedOutNumberArray.push(multiple);
@@ -229,7 +250,8 @@ class Sieve_of_Eratosthenes extends Component {
       primeNumberArray,
       numberArray,
       crossedOutNumberArray,
-      activityLogArray
+      activityLogArray,
+      sourceCode
     } = this.state;
 
     const numberList = numberArray.map(number => {
@@ -322,6 +344,9 @@ class Sieve_of_Eratosthenes extends Component {
 
             <TabPanel>
               <h2>Source Code</h2>
+              <pre>
+                <code className="language-javascript">{sourceCode}</code>
+              </pre>
             </TabPanel>
           </Tabs>
         </StyledAlgorithm>
